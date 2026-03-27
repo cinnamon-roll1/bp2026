@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MapLibre + OSMF Shortbread</title>
+
+  <link
+    href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <h1>OSMF Shortbread demo</h1>
+        <p>MapLibre GL JS + OSMF TileJSON + přepínání stylů</p>
+      </div>
+
+      <button id="resetViewBtn" type="button">Reset view</button>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <section class="panel">
+          <h2>Styly</h2>
+
+          <div class="button-group">
+            <button class="style-btn active" data-style="light" type="button">Light</button>
+            <button class="style-btn" data-style="tourist" type="button">Turistická</button>
+            <button class="style-btn" data-style="water" type="button">Vodní</button>
+          </div>
+
+          <p class="hint">
+            Každý styl je uložený jako samostatný JSON soubor ve složce <code>styles/</code>.
+          </p>
+        </section>
+
+        <section class="panel">
+          <h2>Export</h2>
+
+          <div class="button-group">
+            <button id="openExportPanelBtn" class="style-btn export-btn" type="button">
+              Otevřít export panel
+            </button>
+          </div>
+
+          <p class="hint">
+            Export panel obsahuje jen GeoJSON a current map view.
+          </p>
+        </section>
+
+        <section class="panel">
+          <h2>Status</h2>
+          <div id="statusBox">Načítám mapu…</div>
+        </section>
+      </aside>
+
+      <section class="map-panel">
+        <div id="map"></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="exportModal" class="modal hidden">
+    <div class="modal-backdrop" id="closeExportPanelBackdrop"></div>
+
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="exportPanelTitle">
+      <div class="modal-header">
+        <h2 id="exportPanelTitle">Export panel</h2>
+        <button id="closeExportPanelBtn" class="modal-close-btn" type="button">×</button>
+      </div>
+
+      <div class="modal-body">
+        <section class="modal-section">
+          <h3>GeoJSON</h3>
+          <p class="hint">
+            Stáhne OSM data pro aktuální mapové okno jako GeoJSON.
+          </p>
+          <button id="exportGeojsonBtn" class="style-btn export-btn" type="button">
+            Stáhnout GeoJSON
+          </button>
+        </section>
+
+        <section class="modal-section">
+          <h3>Current map view</h3>
+          <p class="hint">
+            Aktuální centrum, zoom, bbox a zvolený styl.
+          </p>
+
+          <textarea id="currentMapViewOutput" class="map-view-output" readonly></textarea>
+
+          <div class="button-group">
+            <button id="refreshMapViewBtn" class="style-btn" type="button">
+              Obnovit view
+            </button>
+            <button id="copyMapViewBtn" class="style-btn" type="button">
+              Kopírovat
+            </button>
+            <button id="downloadMapViewBtn" class="style-btn" type="button">
+              Stáhnout JSON
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/osmtogeojson@3.0.0-beta.5/osmtogeojson.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
